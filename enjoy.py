@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import gzip
 
 import numpy as np
 import torch
@@ -15,12 +16,16 @@ def save_object(object, filepath):
 	'''
 	This is a defensive way to write pickle.write, allowing for very large files on all platforms
 	'''
-	max_bytes = 2**31 - 1
-	bytes_out = pickle.dumps(object, protocol=4)
-	n_bytes = sys.getsizeof(bytes_out)
-	with open(filepath, 'wb') as f_out:
-		for idx in range(0, n_bytes, max_bytes):
-			f_out.write(bytes_out[idx:idx+max_bytes])
+	# max_bytes = 2**31 - 1
+	# bytes_out = pickle.dumps(object, protocol=4)
+	# n_bytes = sys.getsizeof(bytes_out)
+	# with open(filepath, 'wb') as f_out:
+	# 	for idx in range(0, n_bytes, max_bytes):
+	# 		f_out.write(bytes_out[idx:idx+max_bytes])
+    file_handler = gzip.GzipFile(filepath, "w")
+    np.save(file_handler,object)
+
+
 
 
 parser = argparse.ArgumentParser(description='RL')
