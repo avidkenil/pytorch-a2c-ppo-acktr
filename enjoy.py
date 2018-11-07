@@ -84,7 +84,7 @@ try:
         # Obser reward and next obs
         obs, reward, done, _ = env.step(action)
         #print(type(obs.numpy()))
-        save_obs = np.swapaxes(obs.numpy(),0,1)[np.newaxis,:].astype(np.int16)
+        save_obs = np.swapaxes(obs.numpy(),0,1).squeeze()[np.newaxis,:].astype(np.int16)
         print(save_obs.shape)
         print(final_video.shape)
         final_video = np.vstack((final_video,save_obs)) if final_video.size is not 0 else save_obs
